@@ -1,0 +1,304 @@
+from tkinter import *
+from tkinter import messagebox
+from random import *
+import math
+
+#------------------------------------------------------Root----------------------------------------------------------
+root = Tk()
+root.title("Naru Tower")
+#root.geometry("600x700")
+
+#Frame Spacer
+frameSpace = Label(root, text=" ").grid(row=0, column=0)
+
+#-----------------------------------------------------Stats------------------------------------------------------------
+
+#statsFrame
+statsFrame = LabelFrame(root, text="Stats", padx=15, pady=15)
+statsFrame.grid(row=1, column=1)
+
+#Stat Header
+statHeader = Label(statsFrame, text="  Stat  ").grid(row=1, column=1)
+totalHeader = Label(statsFrame, text="  Total  ").grid(row=1, column=2)
+modHeader = Label(statsFrame, text="  Mod  ").grid(row=1, column=3)
+
+strRace = 0
+intRace = 0
+wisRace = 0
+conRace = 0
+agiRace = 0
+chaRace = 0
+
+def setStats():
+	global strRace
+	global intRace
+	global wisRace
+	global conRace
+	global agiRace
+	global chaRace
+
+	strStat1 = int(strStat.get())
+	strTotal = (strStat1+strRace)
+	strMod = math.floor((strTotal/2)-5)
+	totalStr = Label(statsFrame, text=strTotal).grid(row=2, column=2)
+	strModifier = Label(statsFrame, text=strMod).grid(row=2, column=3)
+
+	intStat1 = int(intStat.get())
+	intTotal = (intStat1+intRace)
+	intMod = math.floor((intTotal/2)-5)
+	totalInt = Label(statsFrame, text=intTotal).grid(row=3, column=2)
+	intModifier = Label(statsFrame, text=intMod).grid(row=3, column=3)
+
+	wisStat1 = int(wisStat.get())
+	wisTotal = (wisStat1+wisRace)
+	wisMod = math.floor((wisTotal/2)-5)
+	totalWis = Label(statsFrame, text=wisTotal).grid(row=4, column=2)
+	wisModifier = Label(statsFrame, text=wisMod).grid(row=4, column=3)
+
+	conStat1 = int(conStat.get())
+	conTotal = (conStat1+conRace)
+	conMod = math.floor((conTotal/2)-5)
+	totalCon = Label(statsFrame, text=conTotal).grid(row=5, column=2)
+	conModifier = Label(statsFrame, text=conMod).grid(row=5, column=3)
+
+	agiStat1 = int(agiStat.get())
+	agiTotal = (agiStat1+agiRace)
+	agiMod = math.floor((agiTotal/2)-5)
+	totalAgi = Label(statsFrame, text=agiTotal).grid(row=6, column=2)
+	agiModifier = Label(statsFrame, text=agiMod).grid(row=6, column=3)
+
+	chaStat1 = int(chaStat.get())
+	chaTotal = (chaStat1+chaRace)
+	chaMod = math.floor((chaTotal/2)-5)
+	totalCha = Label(statsFrame, text=chaTotal).grid(row=7, column=2)
+	chaModifier = Label(statsFrame, text=chaMod).grid(row=7, column=3)
+
+#Strength
+strength = StringVar()
+
+strStatLabel = Label(statsFrame, text="Strength: ")
+strStat = Entry(statsFrame,width=5)
+strStat.insert(0,"0")
+
+#Set Strength
+strStatLabel.grid(row=2, column=0)
+strStat.grid(row=2, column=1)
+
+#Intelligence
+intStatLabel = Label(statsFrame, text="Intelligence: ")
+intStat = Entry(statsFrame, width=5)
+intStat.insert(0,"0")
+
+#Set Intelligence
+intStatLabel.grid(row=3, column=0)
+intStat.grid(row=3, column=1)
+
+#Wisdom
+wisStatLabel = Label(statsFrame, text="Wisdom: ")
+wisStat = Entry(statsFrame, width=5)
+wisStat.insert(0,"0")
+
+#Set Wisdom
+wisStatLabel.grid(row=4, column=0)
+wisStat.grid(row=4, column=1)
+
+
+#Constitution
+conStatLabel = Label(statsFrame, text="Constitution: ")
+conStat = Entry(statsFrame, width=5)
+conStat.insert(0,"0")
+
+#Set Constitution
+conStatLabel.grid(row=5, column=0)
+conStat.grid(row=5, column=1)
+
+#Agility
+agiStatLabel = Label(statsFrame, text="Agility: ")
+agiStat = Entry(statsFrame, width=5)
+agiStat.insert(0,"0")
+
+#Set Constitution
+agiStatLabel.grid(row=6, column=0)
+agiStat.grid(row=6, column=1)
+
+#Charisma
+chaStatLabel = Label(statsFrame, text="Charisma: ")
+chaStat = Entry(statsFrame, width=5)
+chaStat.insert(0,"0")
+
+#Set Constitution
+chaStatLabel.grid(row=7, column=0)
+chaStat.grid(row=7, column=1)
+
+statModButton = Button(statsFrame, text="Set Stats", command=setStats)
+statModButton.grid(row=100, column=0, columnspan=4)
+
+
+
+
+
+
+
+
+
+
+
+#----------------------------------------------------Races--------------------------------------------------
+#raceFrame
+raceFrame = LabelFrame(root, text="Races", padx=15, pady=15)
+raceFrame.grid(row=1, column=2)
+
+raceVar = StringVar()
+
+raceChoiceText = Label(raceFrame, text="Choose a Race: ")
+raceVar.set("Choose One")
+raceChoices = OptionMenu(raceFrame, raceVar, "Machen", "Sygmachen", "Elmachen", "Dracomachen")
+raceSummaryText = Label(raceFrame, text="Race Summary")
+
+#Race Summary
+raceStrText = Label(raceFrame, text="Strength: ")
+raceIntText = Label(raceFrame, text="Intelligence: ")
+raceWisText = Label(raceFrame, text="Wisdom: ")
+raceConText = Label(raceFrame, text="Constitution: ")
+raceAgiText = Label(raceFrame, text="Agility: ")
+raceChaText = Label(raceFrame, text="Charisma: ")
+
+
+raceChoiceText.grid(row=1, column=0)
+raceChoices.grid(row=1, column=1)
+raceSummaryText.grid(row=2, column=0, columnspan=10)
+raceStrText.grid(row=10, column=0)
+raceIntText.grid(row=11, column=0)
+raceWisText.grid(row=12, column=0)
+raceConText.grid(row=13, column=0)
+raceAgiText.grid(row=14, column=0)
+raceChaText.grid(row=15, column=0)
+
+
+def setRace():
+	global strRace
+	global intRace
+	global wisRace
+	global conRace
+	global agiRace
+	global chaRace
+
+	chosenRace = raceVar.get()
+	if raceVar.get() == "Machen":
+		strRace = int(-1)
+		intRace = int(1)
+		wisRace = int(1)
+		conRace = int(0)
+		agiRace = int(0)
+		chaRace = int(1)
+
+	elif raceVar.get() == "Sygmachen":
+		strRace = 1
+		intRace = 1
+		wisRace = 0
+		conRace = 0
+		agiRace = -1
+		chaRace = 0
+
+	elif raceVar.get() == "Elmachen":
+		strRace = 0
+		intRace = 0
+		wisRace = 1
+		conRace = -1
+		agiRace = 1
+		chaRace = 0
+
+	elif raceVar.get() == "Dracomachen":
+		strRace = 1
+		intRace = -1
+		wisRace = 0
+		conRace = 1
+		agiRace = -1
+		chaRace = 1
+	
+	#Set Race Summary
+	raceStr = Label(raceFrame, text=strRace).grid(row=10, column=2, columnspan=2)
+	raceInt = Label(raceFrame, text=intRace).grid(row=11, column=2, columnspan=2)
+	raceWis = Label(raceFrame, text=wisRace).grid(row=12, column=2, columnspan=2)
+	raceCon = Label(raceFrame, text=conRace).grid(row=13, column=2, columnspan=2)
+	raceAgi = Label(raceFrame, text=agiRace).grid(row=14, column=2, columnspan=2)
+	raceCha = Label(raceFrame, text=chaRace).grid(row=15, column=2, columnspan=2)
+
+	setStats()
+
+
+
+
+raceButton = Button(raceFrame, text="Set Race Traits", command=setRace)
+
+raceButton.grid(row=100, column=0, columnspan=10)
+
+
+#-----------------------------------------------------Classes------------------------------------------------------
+
+#classFrame
+classFrame = LabelFrame(root, text="Classes", padx=15, pady=15)
+classFrame.grid(row=2, column=1)
+
+classVar = StringVar()
+
+classChoiceText = Label(classFrame, text="Choose a Class: ")
+classVar.set("Choose One")
+classChoices = OptionMenu(classFrame, classVar, "Artificer", "Bard", "Barrier", "Magus", "Radiant", "Ranger", "Specter", "Tamer")
+
+
+classChoiceText.grid(row=1, column=0)
+classChoices.grid(row=1, column=1)
+
+
+
+
+
+
+
+
+#-------------------------------------------Top-------------------------------------------------------
+def openDice():
+	#create new window
+	top = Toplevel()
+	top.title("Dice Roller")
+	#top.geometry("400x400")
+
+	topWelcome = Label(top, text="Dice Roller")
+	topWelcome.grid(row=0, column=0, columnspan=2)
+
+	#Spacer
+	space = Label(top, text="    ").grid(row=1, column=1, rowspan=8)
+
+	#Roll a d4
+	def roll_d4():
+		d4 = randint(1,4)
+		rolled_d4 = Label(top, text=d4).grid(row=1, column=2)
+	
+	button_d4 = Button(top, text="Roll d4", command=roll_d4)
+	button_d4.grid(row=1, column=0)
+
+	#Roll a d6
+	def roll_d6():
+		d6 = randint(1,6)
+		rolled_d6 = Label(top, text=d6).grid(row=2, column=2)
+
+	button_d6 = Button(top, text="Roll d6", command=roll_d6)
+	button_d6.grid(row=2, column=0)
+
+	#Roll a d8
+	def roll_d8():
+		d8 = randint(1,8)
+		rolled_d8 = Label(top, text=d8).grid(row=3, column=2)
+
+	button_d8 = Button(top, text="Roll d8", command=roll_d8)
+	button_d8.grid(row=3, column=0)
+
+	quit_dice = Button(top, text="Close Dice Roller", command=top.destroy).grid(row=30, column=0, columnspan=30)
+
+#Open Dice Roller from Root
+diceRoller = Button(root, text="Open Dice Roller", command=openDice).grid(row=50, column=1, columnspan=20)
+
+
+
+root.mainloop()
