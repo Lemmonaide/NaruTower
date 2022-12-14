@@ -72,7 +72,7 @@ hairStyleEnter.grid(row=1, column=7, columnspan=3, sticky="W")
 
 #Row 3
 playerDescription = Label(informationFrame, text="Physical Description: ")
-descriptionEnter = Entry(informationFrame, width=100)
+descriptionEnter = Text(informationFrame, height=2, width=100)
 
 #Set Row 3
 playerDescription.grid(row=3, column=0)
@@ -366,7 +366,7 @@ def openDice():
 	#create new window
 	top = Toplevel()
 	top.title("Dice Roller")
-	#top.geometry("200x200")
+	top.geometry("300x200")
 
 	topWelcome = Label(top, text="Dice Roller", font="bold 24")
 	topWelcome.grid(row=0, column=0, columnspan=2)
