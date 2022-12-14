@@ -1,21 +1,87 @@
 from tkinter import *
-from tkinter import messagebox
+import tkinter as tk
 from random import *
+from roleplay import *
+from PIL import Image, ImageTk
 import math
+
 
 #------------------------------------------------------Root----------------------------------------------------------
 root = Tk()
 root.title("Naru Tower")
-#root.geometry("600x700")
+root.geometry("1450x750")
 
-#Frame Spacer
-frameSpace = Label(root, text=" ").grid(row=0, column=0)
+#---------------------------------------------------------Header--------------------------------------------------------
+# Load the image
+image=Image.open('NaruTower.png')
 
+# Resize the image in the given (width, height)
+img=image.resize((1450, 140))
+
+# Convert the image in TkImage
+my_img=ImageTk.PhotoImage(img)
+
+# Display the image with label
+label=Label(root, image=my_img)
+label.grid(row=0, column=0, columnspan=100, sticky="EW")
+
+#---------------------------------------------------------Player Information---------------------------------------------------
+#Player Info Frame
+informationFrame=LabelFrame(root, text="Character Information", padx=10, pady=10)
+informationFrame.grid(row=1, column=0, columnspan=5)
+
+#Row 1
+name = Label(informationFrame, text="Character Name: ")
+nameEnter = Entry(informationFrame, width=30)
+playerLevel = Label(informationFrame, text="Level: ")
+levelEnter = Entry(informationFrame, width=5, bg="aqua")
+playerAge = Label(informationFrame, text="Age: ")
+ageEnter = Entry(informationFrame, width=5)
+playerGender = Label(informationFrame, text="Gender: ")
+genderEnter = Entry(informationFrame, width=15)
+
+#Set Row 1
+name.grid(row=0, column=0, sticky="E")
+nameEnter.grid(row=0, column=1, columnspan=3, sticky="W")
+playerLevel.grid(row=0, column=4, sticky="E")
+levelEnter.grid(row=0, column=5, sticky="W")
+playerAge.grid(row=0, column=6, sticky="E")
+ageEnter.grid(row=0, column=7, sticky="W")
+playerGender.grid(row=0, column=8, sticky="E")
+genderEnter.grid(row=0, column=9, columnspan=2, sticky="W")
+
+#Row2
+playerWeight = Label(informationFrame, text="Weight: ")
+weightEnter = Entry(informationFrame, width=5)
+playerHeight = Label(informationFrame, text="Height: ")
+heightEnter = Entry(informationFrame, width=5)
+playerHair = Label(informationFrame, text="Hair Color: ")
+hairEnter = Entry(informationFrame, width=15)
+playerHairStyle = Label(informationFrame, text="Hair Style: ")
+hairStyleEnter = Entry(informationFrame, width=30)
+
+#Set Row 2
+playerWeight.grid(row=1, column=0, sticky="E")
+weightEnter.grid(row=1, column=1, sticky="W")
+playerHeight.grid(row=1, column=2, sticky="E")
+heightEnter.grid(row=1, column=3, sticky="W")
+playerHair.grid(row=1, column=4, sticky="E")
+hairEnter.grid(row=1, column=5, sticky="W")
+playerHairStyle.grid(row=1, column=6, sticky="E")
+hairStyleEnter.grid(row=1, column=7, columnspan=3, sticky="W")
+
+#Row 3
+playerDescription = Label(informationFrame, text="Physical Description: ")
+descriptionEnter = Entry(informationFrame, width=100)
+
+#Set Row 3
+playerDescription.grid(row=3, column=0)
+descriptionEnter.grid(row=3, column=1, columnspan=9)
 #-----------------------------------------------------Stats------------------------------------------------------------
 
 #statsFrame
-statsFrame = LabelFrame(root, text="Stats", padx=15, pady=15)
-statsFrame.grid(row=1, column=1)
+statsFrame = LabelFrame(root, text="Stats", padx=10, pady=10)
+statsFrame.grid(row=2, column=1)
 
 #Stat Header
 statHeader = Label(statsFrame, text="  Stat  ").grid(row=1, column=1)
@@ -36,6 +102,7 @@ def setStats():
 	global conRace
 	global agiRace
 	global chaRace
+	global evasionClass
 
 	strStat1 = int(strStat.get())
 	strTotal = (strStat1+strRace)
@@ -46,6 +113,8 @@ def setStats():
 	intStat1 = int(intStat.get())
 	intTotal = (intStat1+intRace)
 	intMod = math.floor((intTotal/2)-5)
+	mpStat = round((intTotal * 5) / 3)
+	setMPStat = Label(mpFrame, text=mpStat).grid(row=0, column=1)
 	totalInt = Label(statsFrame, text=intTotal).grid(row=3, column=2)
 	intModifier = Label(statsFrame, text=intMod).grid(row=3, column=3)
 
@@ -58,12 +127,22 @@ def setStats():
 	conStat1 = int(conStat.get())
 	conTotal = (conStat1+conRace)
 	conMod = math.floor((conTotal/2)-5)
+	conStat1 = int(conStat.get())
+	conTotal = (conStat1 + conRace)
+	hpStat = round((conTotal * 5) / 3)
+	setHPStat = Label(hpFrame, text=hpStat).grid(row=0, column=1)
 	totalCon = Label(statsFrame, text=conTotal).grid(row=5, column=2)
 	conModifier = Label(statsFrame, text=conMod).grid(row=5, column=3)
 
 	agiStat1 = int(agiStat.get())
 	agiTotal = (agiStat1+agiRace)
-	agiMod = math.floor((agiTotal/2)-5)
+	evasionClass = 0
+	initiativeClass = 0
+	evasionTotal = (round((agiTotal * 7.5)/10)+evasionClass)
+	agiMod = math.floor((agiTotal / 2) - 5)
+	initiativeTotal = round((agiMod + initiativeClass) * 3)
+	evasionStat = Label(evasionFrame, text=evasionTotal).grid(row=0, column=0)
+	initiativeStat = Label(initiativeFrame, text=initiativeTotal).grid(row=0, column=0)
 	totalAgi = Label(statsFrame, text=agiTotal).grid(row=6, column=2)
 	agiModifier = Label(statsFrame, text=agiMod).grid(row=6, column=3)
 
@@ -145,8 +224,8 @@ statModButton.grid(row=100, column=0, columnspan=4)
 
 #----------------------------------------------------Races--------------------------------------------------
 #raceFrame
-raceFrame = LabelFrame(root, text="Races", padx=15, pady=15)
-raceFrame.grid(row=1, column=2)
+raceFrame = LabelFrame(root, text="Races", padx=10, pady=10)
+raceFrame.grid(row=2, column=2)
 
 raceVar = StringVar()
 
@@ -182,6 +261,7 @@ def setRace():
 	global conRace
 	global agiRace
 	global chaRace
+	global armorRace
 
 	chosenRace = raceVar.get()
 	if raceVar.get() == "Machen":
@@ -237,8 +317,8 @@ raceButton.grid(row=100, column=0, columnspan=10)
 #-----------------------------------------------------Classes------------------------------------------------------
 
 #classFrame
-classFrame = LabelFrame(root, text="Classes", padx=15, pady=15)
-classFrame.grid(row=2, column=1)
+classFrame = LabelFrame(root, text="Classes", padx=10, pady=10)
+classFrame.grid(row=3, column=3)
 
 classVar = StringVar()
 
@@ -246,25 +326,49 @@ classChoiceText = Label(classFrame, text="Choose a Class: ")
 classVar.set("Choose One")
 classChoices = OptionMenu(classFrame, classVar, "Artificer", "Bard", "Barrier", "Magus", "Radiant", "Ranger", "Specter", "Tamer")
 
-
 classChoiceText.grid(row=1, column=0)
 classChoices.grid(row=1, column=1)
 
+#-------------------------------------------------Vitals--------------------------------------------------------------
+vitalFrame = LabelFrame(root, text="Vitals", padx=10, pady=10)
+vitalFrame.grid(row=2, column=3)
 
+#HP
+hpFrame = LabelFrame(vitalFrame, text="HP", padx=10, pady=10)
+hpFrame.grid(row=0, column=0)
 
+currentHPEntry = Entry(hpFrame, width=5).grid(row=0, column=0)
+currentHP = Label(hpFrame, text="Current HP").grid(row=1, column=0)
+hpStatName = Label(hpFrame, text="HP").grid(row=1, column=1)
 
+#MP
+mpFrame = LabelFrame(vitalFrame, text="MP", padx=10, pady=10)
+mpFrame.grid(row=1, column=0)
 
+currentMPEntry = Entry(mpFrame, width=5).grid(row=0, column=0)
+currentMP = Label(mpFrame, text="Current MP").grid(row=1, column=0)
+mpStatName = Label(mpFrame, text="MP").grid(row=1, column=1)
 
+#Evasion
+evasionFrame = LabelFrame(vitalFrame, text="Evasion", padx=10, pady=10)
+evasionFrame.grid(row=0, column=1)
 
+evasionName = Label(evasionFrame, text="Evasion").grid(row=1, column=0)
+
+#Initiative
+initiativeFrame = LabelFrame(vitalFrame, text="Initiative", padx=10, pady=10)
+initiativeFrame.grid(row=1, column=1)
+
+initiativeName = Label(initiativeFrame, text="Initiative").grid(row=1, column=0)
 
 #-------------------------------------------Top-------------------------------------------------------
 def openDice():
 	#create new window
 	top = Toplevel()
 	top.title("Dice Roller")
-	#top.geometry("400x400")
+	#top.geometry("200x200")
 
-	topWelcome = Label(top, text="Dice Roller")
+	topWelcome = Label(top, text="Dice Roller", font="bold 24")
 	topWelcome.grid(row=0, column=0, columnspan=2)
 
 	#Spacer
@@ -275,7 +379,7 @@ def openDice():
 		d4 = randint(1,4)
 		rolled_d4 = Label(top, text=d4).grid(row=1, column=2)
 	
-	button_d4 = Button(top, text="Roll d4", command=roll_d4)
+	button_d4 = Button(top, text="Roll d4", command=roll_d4, width=8)
 	button_d4.grid(row=1, column=0)
 
 	#Roll a d6
@@ -283,7 +387,7 @@ def openDice():
 		d6 = randint(1,6)
 		rolled_d6 = Label(top, text=d6).grid(row=2, column=2)
 
-	button_d6 = Button(top, text="Roll d6", command=roll_d6)
+	button_d6 = Button(top, text="Roll d6", command=roll_d6, width=8)
 	button_d6.grid(row=2, column=0)
 
 	#Roll a d8
@@ -291,14 +395,160 @@ def openDice():
 		d8 = randint(1,8)
 		rolled_d8 = Label(top, text=d8).grid(row=3, column=2)
 
-	button_d8 = Button(top, text="Roll d8", command=roll_d8)
+	button_d8 = Button(top, text="Roll d8", command=roll_d8, width=8)
 	button_d8.grid(row=3, column=0)
+
+	#Roll a d10
+	def roll_d10():
+		d10 = randint(1,10)
+		rolled_d10 = Label(top, text=d10).grid(row=4, column=2)
+
+	button_d10 = Button(top, text="Roll d10", command=roll_d10, width=8)
+	button_d10.grid(row=4, column=0)
+
+	#Roll a d12
+	def roll_d12():
+		d12 = randint(1,12)
+		rolled_d12 = Label(top, text=d12).grid(row=5, column=2)
+
+	button_d12 = Button(top, text="Roll d12", command=roll_d12, width=8)
+	button_d12.grid(row=5, column=0)
+
+	#Roll a d20
+	def roll_d20():
+		d20 = randint(1,20)
+		rolled_d20 = Label(top, text=d20).grid(row=6, column=2)
+
+	button_d20 = Button(top, text="Roll d20", command=roll_d20, width=8)
+	button_d20.grid(row=6, column=0)
 
 	quit_dice = Button(top, text="Close Dice Roller", command=top.destroy).grid(row=30, column=0, columnspan=30)
 
+#------------------------------------------------Window of Buttons-----------------------------------------------------
+
+#Frame
+windowFrame = LabelFrame(root, text="Buttons", padx=50, pady=5)
+windowFrame.grid(row=3, column=1, columnspan=2)
+#------------------------------------------------Dice Roller-----------------------------------------------------
+
+
 #Open Dice Roller from Root
-diceRoller = Button(root, text="Open Dice Roller", command=openDice).grid(row=50, column=1, columnspan=20)
+diceRoller = Button(windowFrame, text="Open Dice Roller", command=openDice, padx=5, pady=5).grid(row=0, column=0, sticky="NESW")
 
+#Open Roleplay Window
+roleplayWindow = Button(windowFrame, text="Open Roleplay", command=roleplay, padx=5, pady=5).grid(row=0, column=1, sticky="NESW")
 
+#-------------------------------------------------Aptitudes---------------------------------------------------
+aptitudeFrame = LabelFrame(root, text="Aptitudes", padx=10, pady=10)
+aptitudeFrame.grid(row=2, column=4, rowspan=2)
+apt1 = tk.Checkbutton(aptitudeFrame, text="Acrobatics").grid(row=0, column=0, sticky="W")
+apt2 = tk.Checkbutton(aptitudeFrame, text="Animal Handling").grid(row=1, column=0, sticky="W")
+apt3 = tk.Checkbutton(aptitudeFrame, text="Apothecary").grid(row=2, column=0, sticky="W")
+apt4 = tk.Checkbutton(aptitudeFrame, text="Athletics").grid(row=3, column=0, sticky="W")
+apt5 = tk.Checkbutton(aptitudeFrame, text="Automaton").grid(row=4, column=0, sticky="W")
+apt6 = tk.Checkbutton(aptitudeFrame, text="Blacksmithing").grid(row=5, column=0, sticky="W")
+apt7 = tk.Checkbutton(aptitudeFrame, text="Cooking").grid(row=6, column=0, sticky="W")
+apt8 = tk.Checkbutton(aptitudeFrame, text="Deception").grid(row=7, column=0, sticky="W")
+apt9 = tk.Checkbutton(aptitudeFrame, text="History").grid(row=8, column=0, sticky="W")
+apt10 = tk.Checkbutton(aptitudeFrame, text="Insight").grid(row=9, column=0, sticky="W")
+apt11 = tk.Checkbutton(aptitudeFrame, text="Intimidation").grid(row=10, column=0, sticky="W")
+apt12 = tk.Checkbutton(aptitudeFrame, text="Investigation").grid(row=11, column=0, sticky="W")
+apt13 = tk.Checkbutton(aptitudeFrame, text="Nature").grid(row=0, column=1, sticky="W")
+apt14 = tk.Checkbutton(aptitudeFrame, text="Perception").grid(row=1, column=1, sticky="W")
+apt15 = tk.Checkbutton(aptitudeFrame, text="Performance").grid(row=2, column=1, sticky="W")
+apt16 = tk.Checkbutton(aptitudeFrame, text="Persuasion").grid(row=3, column=1, sticky="W")
+apt17 = tk.Checkbutton(aptitudeFrame, text="Religion").grid(row=4, column=1, sticky="W")
+apt18 = tk.Checkbutton(aptitudeFrame, text="Runes").grid(row=5, column=1, sticky="W")
+apt19 = tk.Checkbutton(aptitudeFrame, text="Scavenge").grid(row=6, column=1, sticky="W")
+apt20 = tk.Checkbutton(aptitudeFrame, text="Sleight of Hand").grid(row=7, column=1, sticky="W")
+apt21 = tk.Checkbutton(aptitudeFrame, text="Stealth").grid(row=8, column=1, sticky="W")
+apt22 = tk.Checkbutton(aptitudeFrame, text="Survival").grid(row=9, column=1, sticky="W")
+apt23 = tk.Checkbutton(aptitudeFrame, text="Taming").grid(row=10, column=1, sticky="W")
 
+#--------------------------------------------------Proficiencies---------------------------------------
+
+profFrame = LabelFrame(root, text="Proficiencies", padx=10, pady=10)
+profFrame.grid(row=1, column=5, rowspan=3)
+
+weaponsFrame = Frame(profFrame)
+weaponsFrame.grid(row=0, column=0)
+
+#-------------------Weapons----------------------
+
+#Simple Weapons
+simpleWeapons = Label(weaponsFrame, text="Simple Weapons", bg="Black", fg="White", padx=5).grid(row=0, column=0)
+clubSimple = tk.Checkbutton(weaponsFrame, text="Club").grid(row=1, column=0, sticky="W")
+daggerSimple = tk.Checkbutton(weaponsFrame, text="Dagger").grid(row=2, column=0, sticky="W")
+handaxeSimple = tk.Checkbutton(weaponsFrame, text="Handaxe").grid(row=3, column=0, sticky="W")
+maceSimple = tk.Checkbutton(weaponsFrame, text="Mace").grid(row=4, column=0, sticky="W")
+quarterstaffSimple = tk.Checkbutton(weaponsFrame, text="Quarterstaff").grid(row=5, column=0, sticky="W")
+shortSwordSimple = tk.Checkbutton(weaponsFrame, text="Short Sword").grid(row=6, column=0, sticky="W")
+
+#Light Weapons
+lightWeapons = Label(weaponsFrame, text="Light Weapons", bg="Black", fg="White", padx=5).grid(row=7, column=0)
+rapierLight = tk.Checkbutton(weaponsFrame, text="Rapier").grid(row=8, column=0, sticky="W")
+sickleLight = tk.Checkbutton(weaponsFrame, text="Sickle").grid(row=9, column=0, sticky="W")
+tclasLight = tk.Checkbutton(weaponsFrame, text="Tiger Claw").grid(row=10, column=0, sticky="W")
+whipLight = tk.Checkbutton(weaponsFrame, text="Whip").grid(row=11, column=0, sticky="W")
+
+#Magical Weapons
+magicWeapons = Label(weaponsFrame, text="Magic Weapons", bg="Black", fg="White", padx=5).grid(row=12, column=0)
+etchingRodMagic = tk.Checkbutton(weaponsFrame, text="Etching Rod").grid(row=13, column=0, sticky="W")
+jeweledStaffMagic = tk.Checkbutton(weaponsFrame, text="Jeweled Staff").grid(row=14, column=0, sticky="W")
+wandMagic = tk.Checkbutton(weaponsFrame, text="Wand").grid(row=15, column=0, sticky="W")
+
+#ProficiencySpacer
+rowSpacer = Label(weaponsFrame, text=" ").grid(row=0, column=1, rowspan=23)
+
+#Heavy Weapons
+heavyWeapons = Label(weaponsFrame, text="Heavy Weapons", bg="Black", fg="White", padx=5).grid(row=0, column=2)
+greatAxeHeavy = tk.Checkbutton(weaponsFrame, text="Great Axe").grid(row=1, column=2, sticky="W")
+longswordHeavy = tk.Checkbutton(weaponsFrame, text= "Longsword").grid(row=2, column=2, sticky="W")
+maulHeavy = tk.Checkbutton(weaponsFrame, text="Maul").grid(row=3, column=2, sticky="W")
+pikeHeavy = tk.Checkbutton(weaponsFrame, text="Pike").grid(row=4, column=2, sticky="W")
+scytheHeavy = tk.Checkbutton(weaponsFrame, text="Scythe").grid(row=5, column=2, sticky="W")
+tridentHeavy = tk.Checkbutton(weaponsFrame, text="Trident").grid(row=6, column=2, sticky="W")
+warhammerHeavy = tk.Checkbutton(weaponsFrame, text="Warhammer").grid(row=7, column=2, sticky="W")
+
+#Ranged Weapons
+rangedWeapons = Label(weaponsFrame, text="Ranged Weapons", bg="Black", fg="White", padx=5).grid(row=8, column=2)
+blowDartRanged = tk.Checkbutton(weaponsFrame, text="Blow Dart").grid(row=9, column=2, sticky="W")
+crossbowRanged = tk.Checkbutton(weaponsFrame, text="Crossbow").grid(row=10, column=2, sticky="W")
+longbowRanged = tk.Checkbutton(weaponsFrame, text="Longbow").grid(row=11, column=2, sticky="W")
+slingRanged = tk.Checkbutton(weaponsFrame, text="Sling").grid(row=12, column=2, sticky="W")
+sniperBowRanged = tk.Checkbutton(weaponsFrame, text="Sniper Bow").grid(row=13, column=2, sticky="W")
+
+#-------------------Armor---------------
+armorsTab = Label(weaponsFrame, text="Armors", bg="#4376b5", fg="White", padx=40).grid(row=0, column=3)
+basicArmor = tk.Checkbutton(weaponsFrame, text="Basic Armor").grid(row=1, column=3, sticky="W")
+basicShield = tk.Checkbutton(weaponsFrame, text="Basic Shield").grid(row=2, column=3, sticky="W")
+heavyArmor = tk.Checkbutton(weaponsFrame, text="Heavy Armor").grid(row=3, column=3, sticky="W")
+heavyShield = tk.Checkbutton(weaponsFrame, text="Heavy Shield").grid(row=4, column=3, sticky="W")
+lightArmor = tk.Checkbutton(weaponsFrame, text="Light Armor").grid(row=5, column=3, sticky="W")
+magicalArmor = tk.Checkbutton(weaponsFrame, text="Magical Armor").grid(row=6, column=3, sticky="W")
+
+#-----------------Tools------------------
+toolsTab = Label(weaponsFrame, text="Tools", bg="Crimson", fg="White", padx=40).grid(row=7, column=3)
+apothecaryTools = tk.Checkbutton(weaponsFrame, text="Apothecary Tools").grid(row=8, column=3, sticky="W")
+blacksmithTools = tk.Checkbutton(weaponsFrame, text="Blacksmith's Tools").grid(row=9, column=3, sticky="W")
+magesTools = tk.Checkbutton(weaponsFrame, text="Mage's Tools").grid(row=10, column=3, sticky="W")
+musiciansTools = tk.Checkbutton(weaponsFrame, text="Musician's Tools").grid(row=11, column=3, sticky="W")
+rangerTools = tk.Checkbutton(weaponsFrame, text="Ranger's Tools").grid(row=12, column=3, sticky="W")
+tamerTools = tk.Checkbutton(weaponsFrame, text="Tamer's Tools").grid(row=13, column=3, sticky="W")
+thievesTools = tk.Checkbutton(weaponsFrame, text="Thieve's Tools").grid(row=14, column=3, sticky="W")
+
+#------------------------------Languages------------------------
+languagesTab = Label(weaponsFrame, text="Languages", bg="#a85a32", fg="White", padx=40).grid(row=16, column=0)
+commonLang = tk.Checkbutton(weaponsFrame, text="Common").grid(row=17, column=0, sticky="W")
+druewLang = tk.Checkbutton(weaponsFrame, text="Durew").grid(row=18, column=0, sticky="W")
+elmishLang = tk.Checkbutton(weaponsFrame, text="Elmish").grid(row=19, column=0, sticky="W")
+sygSpeakLang = tk.Checkbutton(weaponsFrame, text="Syg Speak").grid(row=20, column=0, sticky="W")
+
+#----------------------------------------------------Roleplay-----------------------------------------------
+
+roleplayButton = Button()
+
+#----------------------------------------------------Exit----------------------------------------
+button_quit = Button(root, text="Exit Program", command=root.quit, bg="black", fg="white", width=35, height=2)
+button_quit.grid(row=20, column=0, columnspan=100, sticky="NESW")
 root.mainloop()
